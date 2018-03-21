@@ -8,6 +8,8 @@ import logger from 'morgan'
 import { normalizePort } from './utils/serverUtils'
 import routeHandler from './routes'
 
+import { db } from './utils/db'
+
 const app = express()
 
 // parse incoming requests
