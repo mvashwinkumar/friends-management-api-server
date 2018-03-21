@@ -59,3 +59,49 @@ export const getCommonFriends = (userOneEmail, userTwoEmail) => new Promise((res
             reject(err)
         })
 })
+
+// user story 4: As a user, I need an API to subscribe to updates from an email address
+export const subscribeToUser = (emailToFind, emailToSubscribe) => new Promise((resolve, reject) => {
+    User.findOne({ email: emailToFind })
+        .then(user => {
+            if (!user) { reject(emailToFind + ' not found in db') }
+
+            user.addSubscriber(emailToSubscribe)
+            user.save((err, updated) => err ? reject(err) : resolve(updated))
+        }).catch(err => {
+            reject(err)
+        })
+})
+
+// user story 5: As a user, I need an API to block updates from an email address
+export const unsubscribeFromUser = (emailToFind, emailToUnsubscribe) => new Promise((resolve, reject) => {
+    User.findOne({ email: emailToFind })
+        .then(user => {
+            if (!user) { reject(emailToFind + ' not found in db') }
+
+            user.removeSubscriber(emailToUnsubscribe)
+            user.save((err, updated) => err ? reject(err) : resolve(updated))
+        }).catch(err => {
+            reject(err)
+        })
+})
+
+// user story 6: As a user, I need an API to retrieve all email addresses that can receive updates from an email address
+export const getSubscribers = (emailToFind, textMentions) => new Promise(function (resolve, reject) {
+    User.findOne({ email: emailToFind })
+        .then(user => {
+            if (!user) { return reject(emailToFind + ' not found in db'); }
+
+            if (!textMentions) { return resolve(user.getSubscribers()); }
+
+            const emails = textMentions.split(/\ +/).filter(t => isValidEmail(t))
+
+            Promise.all(emails.map(email => subscribeToUser(emailToFind, email)))
+                .then(() => User.findOne({ email: emailToFind }))
+                .then(updatedUser => resolve(updatedUser.getSubscribers()))
+                .catch(err => reject(err))
+
+        }).catch(err => {
+            reject(err)
+        })
+})

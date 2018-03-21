@@ -1,1 +1,1 @@
-export const isValidEmail = emailToValidate => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(emailToValidate)
+export const isValidEmail = emailToValidate => emailToValidate && /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(emailToValidate)

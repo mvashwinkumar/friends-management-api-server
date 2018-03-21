@@ -5,13 +5,7 @@ import * as UserController from '../controllers/userController'
 import { STATUS_CODE, ERROR_MESSAGE } from '../utils/constants'
 import { isValidEmail } from '../utils/validationUtils'
 
-/*
-#1 POST /friends/connection
-#2 GET /friends
-#3 GET /friends/common
-*/
-
-router.post('/connection', function (req, res, next) {
+router.post('/connection', (req, res, next) => {
     const { friends = [] } = req.body || {}
     const [userOne, userTwo] = friends
 
@@ -34,7 +28,7 @@ router.post('/connection', function (req, res, next) {
     }
 })
 
-router.get('/', function (req, res, next) {
+router.get('/', (req, res, next) => {
     const { email } = req.query || {}
     if (isValidEmail(email)) {
         UserController.getFriends(email)
@@ -59,7 +53,7 @@ router.get('/', function (req, res, next) {
     }
 })
 
-router.get('/common', function (req, res, next) {
+router.get('/common', (req, res, next) => {
     const { emails = [] } = req.query || {}
     const [userOne, userTwo] = emails
 
