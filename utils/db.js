@@ -19,4 +19,4 @@ const connectToMongo = () => mongoose.connect(ConnectionURI, err => {
 // initiate connection
 connectToMongo()
 
-module.exports.db = connection
+module.exports.db = mongoose

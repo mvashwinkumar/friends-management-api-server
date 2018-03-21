@@ -1,5 +1,5 @@
-var express = require('express')
-var router = express.Router()
+import express from 'express'
+const router = express.Router()
 
 /*
 #1 POST /friends/connection
@@ -19,4 +19,4 @@ router.get('/common', function (req, res, next) {
     res.status(200).json({ "success": true, "message": "GET /friends/common" })
 })
 
-module.exports = router
+export default router
