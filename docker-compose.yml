@@ -12,6 +12,19 @@ services:
       DBRECONNECTAFTERSEC: 5
     depends_on:
       - appdb
+  testapp:
+    build: .
+    command: npm run test
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      DBHOST: appdb
+      DBPORT: 27017
+      DBDATABASE: testdb
+      DBRECONNECTAFTERSEC: 5
+    depends_on:
+      - appdb
   appdb:
     image: mongo
     command: mongod --setParameter diagnosticDataCollectionEnabled=false
