@@ -1,6 +1,17 @@
 # friends-management-api-server
 Simple API server to manage friends and subscriber relations
 
+**IMPORTANT NOTE: GET requests cannot contain a request body as per REST specifications, so using it as query params instead**
+
+#### Prerequisites to run
+1. NodeJS
+2. Docker
+
+Start with the following command
+```
+docker-compose up --build
+```
+
 #### User Stories
 
 **1. As a user, I need an API to create a friend connection between two email addresses.**

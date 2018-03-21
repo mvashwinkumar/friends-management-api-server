@@ -4,6 +4,8 @@ import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import path from 'path'
 import logger from 'morgan'
+import swaggerUi from 'swagger-ui-express'
+import swaggerJSDoc from 'swagger-jsdoc'
 
 import { normalizePort } from './utils/serverUtils'
 import routeHandler from './routes'
@@ -13,6 +15,19 @@ import { db } from './utils/db'
 import { STATUS_CODE } from './utils/constants'
 
 const app = express()
+
+const swaggerSpec = swaggerJSDoc({
+    swaggerDefinition: {
+        info: {
+            title: 'Friends and Subscribers Management API Server',
+            version: '1.0.0',
+        },
+        basePath: '/api/v2'
+    },
+    apis: ['./routes/friendRoutes.js', './routes/subscriberRoutes.js']
+})
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 // parse incoming requests
 app.use(bodyParser.urlencoded({ extended: false }))
