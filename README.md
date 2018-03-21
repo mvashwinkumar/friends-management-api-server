@@ -102,7 +102,7 @@ The API should return the following JSON response on success:
 }
 ```
 
->Proposed route: PUT /subscriber
+>Proposed route: PUT /subscribers
 
 **5. As a user, I need an API to block updates from an email address.**
 
@@ -128,7 +128,7 @@ The API should return the following JSON response on success:
 }
 ```
 
->Proposed route: DELETE /subscriber
+>Proposed route: DELETE /subscribers
 
 **6. As a user, I need an API to retrieve all email addresses that can receive updates from an email address.**
 
