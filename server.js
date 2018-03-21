@@ -1,23 +1,28 @@
-var express = require('express');
-var http = require('http');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var path = require('path');
-var logger = require('morgan');
+import express from 'express'
+import http from 'http'
+import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
+import path from 'path'
+import logger from 'morgan'
 
-var serverUtils = require('./utils/serverUtils');
+import { normalizePort } from './utils/serverUtils'
 
-var app = express();
+const app = express()
 
-app.use(bodyParser.urlencoded({ extended: false }));
+// parse incoming requests
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser())
 
-var port = serverUtils.normalizePort(3000);
-app.set('port', port);
+// serve static files
+app.use(express.static(path.join(__dirname, 'public')))
 
-var server = http.createServer(app);
-server.listen(port, function () {
+// set port
+const port = normalizePort(3000)
+app.set('port', port)
+
+// start server
+const server = http.createServer(app)
+server.listen(port, () => {
     console.log('started API server on port ' + port)
 });
