@@ -3,6 +3,7 @@ const router = express.Router()
 
 import * as UserController from '../controllers/userController'
 import { STATUS_CODE, ERROR_MESSAGE } from '../utils/constants'
+import { isValidEmail } from '../utils/validationUtils'
 
 /*
 #1 POST /friends/connection
@@ -11,12 +12,31 @@ import { STATUS_CODE, ERROR_MESSAGE } from '../utils/constants'
 */
 
 router.post('/connection', function (req, res, next) {
-    res.status(200).json({ "success": true, "message": "POST /friends/connection" })
+    const { friends = [] } = req.body || {}
+    const [userOne, userTwo] = friends
+
+    if (isValidEmail(userOne) && isValidEmail(userTwo)) {
+        UserController.connectFriends(userOne, userTwo)
+            .then(result => {
+                res.status(STATUS_CODE.SUCCESS).json({ success: true })
+            })
+            .catch(err => {
+                res.status(STATUS_CODE.ILLEGAL_PARAMS).json({
+                    success: false,
+                    error: err
+                })
+            })
+    } else {
+        res.status(STATUS_CODE.ILLEGAL_PARAMS).json({
+            success: false,
+            error: ERROR_MESSAGE.ILLEGAL_PARAMS
+        })
+    }
 })
 
 router.get('/', function (req, res, next) {
     const { email } = req.query || {}
-    if (email) {
+    if (isValidEmail(email)) {
         UserController.getFriends(email)
             .then(friends => {
                 res.status(STATUS_CODE.SUCCESS).json({
@@ -40,7 +60,30 @@ router.get('/', function (req, res, next) {
 })
 
 router.get('/common', function (req, res, next) {
-    res.status(200).json({ "success": true, "message": "GET /friends/common" })
+    const { emails = [] } = req.query || {}
+    const [userOne, userTwo] = emails
+
+    if (isValidEmail(userOne) && isValidEmail(userTwo)) {
+        UserController.getCommonFriends(userOne, userTwo)
+            .then(commonFriends => {
+                res.status(STATUS_CODE.SUCCESS).json({
+                    success: true,
+                    friends: commonFriends,
+                    count: commonFriends.length
+                })
+            })
+            .catch(err => {
+                res.status(STATUS_CODE.ILLEGAL_PARAMS).json({
+                    success: false,
+                    error: err
+                })
+            })
+    } else {
+        res.status(STATUS_CODE.ILLEGAL_PARAMS).json({
+            success: false,
+            error: ERROR_MESSAGE.ILLEGAL_PARAMS
+        })
+    }
 })
 
 export default router
