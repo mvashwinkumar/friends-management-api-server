@@ -16,6 +16,6 @@ services:
     image: mongo
     command: mongod --setParameter diagnosticDataCollectionEnabled=false
     volumes:
-      - "./data:/data"
+      - "./data:/data/db"
     ports:
       - "27017:27017"
