@@ -52,4 +52,6 @@ app.set('port', port)
 const server = http.createServer(app)
 server.listen(port, () => {
     console.log('started API server on port ' + port)
-});
+})
+
+export default app

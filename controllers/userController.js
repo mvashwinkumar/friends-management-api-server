@@ -1,3 +1,4 @@
+import { isValidEmail } from '../utils/validationUtils'
 import User from '../models/userModel'
 
 // #1: As a user, I need an API to create a friend connection between two email addresses
@@ -87,19 +88,19 @@ export const unsubscribeFromUser = (emailToFind, emailToUnsubscribe) => new Prom
 })
 
 // user story 6: As a user, I need an API to retrieve all email addresses that can receive updates from an email address
-export const getSubscribers = (emailToFind, textMentions) => new Promise(function (resolve, reject) {
+export const getSubscribers = (emailToFind, textMentions) => new Promise((resolve, reject) => {
     User.findOne({ email: emailToFind })
         .then(user => {
-            if (!user) { return reject(emailToFind + ' not found in db'); }
+            if (!user) { reject(emailToFind + ' not found in db') }
 
-            if (!textMentions) { return resolve(user.getSubscribers()); }
+            if (!textMentions) { resolve(user.getSubscribers()) }
 
             const emails = textMentions.split(/\ +/).filter(t => isValidEmail(t))
 
             Promise.all(emails.map(email => subscribeToUser(emailToFind, email)))
                 .then(() => User.findOne({ email: emailToFind }))
-                .then(updatedUser => resolve(updatedUser.getSubscribers()))
-                .catch(err => reject(err))
+                .then(updatedUser => { resolve(updatedUser.getSubscribers()) })
+                .catch(err => { reject(err) })
 
         }).catch(err => {
             reject(err)
