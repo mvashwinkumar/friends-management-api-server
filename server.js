@@ -10,6 +10,8 @@ import routeHandler from './routes'
 
 import { db } from './utils/db'
 
+import { STATUS_CODE } from './utils/constants'
+
 const app = express()
 
 // parse incoming requests
@@ -26,7 +28,7 @@ app.all('/*', function (req, res, next) {
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-type,Accept,X-Access-Token,X-Key');
     if (req.method == 'OPTIONS') {
-        res.status(200).end();
+        res.status(STATUS_CODE.SUCCESS).end();
     } else {
         next();
     }
@@ -35,17 +37,17 @@ app.all('/*', function (req, res, next) {
 //serve routes
 app.use('/api/v2', routeHandler, function (req, res) {
     // any route not defined will return 404
-    res.status(404).send('API not found')
+    res.status(STATUS_CODE.NOT_FOUND).send('API not found')
 })
 
 // throw 500 error for other server related error
 app.use(function (err, req, res, next) {
     console.error(err.stack)
-    res.status(500).send('Something broke!')
+    res.status(STATUS_CODE.INTERNAL_ERROR).send('Something broke!')
 })
 
 // set port
-const port = normalizePort(3000)
+const port = normalizePort(process.env.PORT)
 app.set('port', port)
 
 // start server

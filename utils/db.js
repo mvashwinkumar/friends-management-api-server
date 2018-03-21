@@ -1,9 +1,9 @@
 import mongoose, { connection } from 'mongoose'
 
-const HOST = 'localhost',
-    PORT = 27017,
-    DB = 'test',
-    reconnectAfterSeconds = 5,
+const HOST = process.env.DBHOST,
+    PORT = process.env.DBPORT,
+    DB = process.env.DBDATABASE,
+    reconnectAfterSeconds = process.env.DBRECONNECTAFTERSEC,
     ConnectionURI = `mongodb://${HOST}:${PORT}/${DB}`
 
 

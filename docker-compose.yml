@@ -1,0 +1,21 @@
+version: "2"
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      DBHOST: appdb
+      DBPORT: 27017
+      DBDATABASE: test
+      DBRECONNECTAFTERSEC: 5
+    depends_on:
+      - appdb
+  appdb:
+    image: mongo
+    command: mongod --setParameter diagnosticDataCollectionEnabled=false
+    volumes:
+      - "./data:/data"
+    ports:
+      - "27017:27017"
