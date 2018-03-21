@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var path = require('path');
 var logger = require('morgan');
 
+var serverUtils = require('./utils/serverUtils');
+
 var app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -12,23 +14,7 @@ app.use(bodyParser.json())
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-function normalizePort(val) {
-    var port = parseInt(val, 10);
-    
-    if (isNaN(port)) {
-        // named pipe
-        return val;
-    }
-    
-    if (port >= 0) {
-        // port number
-        return port;
-    }
-    
-    return false;
-}
-
-var port = normalizePort(3000);
+var port = serverUtils.normalizePort(3000);
 app.set('port', port);
 
 var server = http.createServer(app);
