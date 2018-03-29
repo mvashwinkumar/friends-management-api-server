@@ -12,6 +12,17 @@ Start with the following command
 docker-compose up --build
 ```
 
+#### Options after starting
+1. To see coverage report
+```
+http://localhost:3000/coverage/index.html
+```
+
+2. To see API documentation
+```
+http://localhost:3000/api-docs/index.html
+```
+
 #### User Stories
 
 **1. As a user, I need an API to create a friend connection between two email addresses.**
