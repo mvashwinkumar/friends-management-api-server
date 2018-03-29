@@ -14,7 +14,7 @@ services:
       - appdb
   testapp:
     build: .
-    command: npm run test
+    command: npm run coverage
     ports:
       - "3001:3001"
     environment:

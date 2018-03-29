@@ -67,8 +67,9 @@ app.set('port', port)
 
 // start server
 const server = http.createServer(app)
-server.listen(port, () => {
+const serverInstance = server.listen(port, () => {
     console.log('started API server on port ' + port)
 })
 
 export default app
+export { app, serverInstance }
