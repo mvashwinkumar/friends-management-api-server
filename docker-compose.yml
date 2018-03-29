@@ -10,6 +10,8 @@ services:
       DBPORT: 27017
       DBDATABASE: test
       DBRECONNECTAFTERSEC: 5
+    volumes:
+      - "./:/app"
     depends_on:
       - appdb
   testapp:
@@ -23,6 +25,8 @@ services:
       DBPORT: 27017
       DBDATABASE: testdb
       DBRECONNECTAFTERSEC: 5
+    volumes:
+      - "./:/app"
     depends_on:
       - appdb
   appdb:

@@ -1,6 +1,6 @@
 FROM node:carbon
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir -p /app
+WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
